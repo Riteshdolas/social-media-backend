@@ -14,7 +14,6 @@ const searchUser = async (req, res) => {
 
     return res.status(200).json({ user });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "internal server error" });
   }
 };
@@ -27,7 +26,6 @@ const getAllUser = async (req, res) => {
 
     return res.status(200).json({ user });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "internal server error" });
   }
 };
@@ -43,7 +41,6 @@ const getPostById = async (req, res) => {
 
     return res.status(200).json({ post });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "internal server error" });
   }
 };
@@ -56,7 +53,6 @@ const getAllPost = async (req, res) => {
 
     return res.status(200).json({ post });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "internal server error" });
   }
 };
@@ -69,7 +65,6 @@ const getAllLikes = async (req, res) => {
 
     return res.status(200).json({ likes });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "internal server error" });
   }
 };
@@ -86,7 +81,6 @@ const getLikesById = async (req, res) => {
 
     return res.status(200).json({ likes });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "internal server error" });
   }
 };
@@ -100,7 +94,6 @@ const getAllFollower = async (req, res) => {
 
     return res.status(200).json({ followers });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "internal server error" });
   }
 };
@@ -120,7 +113,6 @@ const getFollowerById = async (req, res) => {
 
     return res.status(200).json({ follower });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "internal server error" });
   }
 };
@@ -132,7 +124,6 @@ const getAllComment = async (req, res) => {
 
     return res.status(200).json({ comments });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "internal server error" });
   }
 };
@@ -151,7 +142,6 @@ const getCommentById = async (req, res) => {
 
     return res.status(200).json({ comment });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "internal server error" });
   }
 };

@@ -12,7 +12,6 @@ const generateToken = (userData) => {
       expiresIn: "10d",
     });
   } catch (error) {
-    console.log(error);
     return res.status.json({ error: "error not found" });
   }
 };
@@ -55,7 +54,6 @@ const registerUser = async (req, res) => {
 
     return res.status(200).json({ savedUser, token });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "something went wrong" });
   }
 };
@@ -81,7 +79,6 @@ const addFollower = async (req, res) => {
 
     return res.status(200).json(savedFollower);
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "follower not found" });
   }
 };
@@ -105,7 +102,6 @@ const likePost = async (req, res) => {
 
     return res.status(200).json(savedLike);
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "like not found" });
   }
 };
@@ -123,7 +119,6 @@ const sendMessage = async (req, res) => {
 
     return res.status(200).json(savedmessage);
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "message was not sent" });
   }
 };
@@ -140,7 +135,6 @@ const addComment = async (req, res) => {
 
     return res.status(200).json(savedComment);
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "commnt error" });
   }
 };
@@ -162,7 +156,6 @@ const login = async (req, res) => {
     const token = generateToken(payload);
     return res.json({ token });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "inernal server error" });
   }
 };

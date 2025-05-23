@@ -1,27 +1,29 @@
 import mongoose, { Schema } from "mongoose";
 
-const postSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema(
+  {
     user_id: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required: true
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     caption: {
-        type: String,
-        required: true,
-        trim: true
+      type: String,
+      required: true,
+      trim: true,
     },
-   post_url: {
-        type: String,
-        trim: true,
-        required: true,
+    post_url: {
+      type: String,
+      trim: true,
+      required: true,
     },
     media_type: {
-        type: String,
-        enum: ['image', 'video'],
-        required: true,
+      type: String,
+      enum: ["image", "video"],
+      required: true,
     },
+  },
+  { timestamps: true }
+);
 
-}, {timestamps: true})
-
-export const Post = mongoose.model("Post", postSchema)
+export const Post = mongoose.model("Post", postSchema);

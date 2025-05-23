@@ -19,7 +19,6 @@ const deletePost = async (req, res) => {
       .status(200)
       .json({ deletedpost, message: "post deleted successfully" });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "unable to delete post" });
   }
 };
@@ -40,7 +39,6 @@ const unFollow = async (req, res) => {
     const unfollow = await Follower.findByIdAndDelete(followedId);
     return res.status(200).json({ unfollow, message: "unFollowed" });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "unable to unfollow" });
   }
 };
@@ -61,7 +59,6 @@ const removeLike = async (req, res) => {
     const removedlike = await Like.findByIdAndDelete(likeId);
     return res.status(200).json({ removedlike, message: "Like revomed" });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "unable to revomed Like" });
   }
 };
@@ -82,7 +79,6 @@ const removeComment = async (req, res) => {
     const removedcomment = await Comment.findByIdAndDelete(commentId);
     return res.status(200).json({ removedcomment, message: "comment removed" });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "unable to remove comment" });
   }
 };
