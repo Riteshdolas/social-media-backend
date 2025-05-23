@@ -22,8 +22,14 @@ import {
   unFollow,
 } from "../controllers/delete.user.controller.js";
 import {
+  getAllComment,
+  getAllFollower,
+  getAllLikes,
   getAllPost,
   getAllUser,
+  getCommentById,
+  getFollowerById,
+  getLikesById,
   getPostById,
   searchUser,
 } from "../controllers/getUserData.controllers.js";
@@ -51,4 +57,11 @@ router.get("/all", getAllUser);
 router.get("/:userName", searchUser);
 router.get("/all/post", getAllPost);
 router.get("/post/:postId", getPostById);
+router.get("/all/like", getAllLikes)
+router.get("/like/:likeId", getLikesById)
+router.get("/all/follower", getAllFollower)
+router.get("/follower/:followerId", getFollowerById)
+router.get("/all/comment", getAllComment)
+router.get("/comment/:commentId", getCommentById)
+
 export default router;
