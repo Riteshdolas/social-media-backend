@@ -17,13 +17,14 @@ It handles user authentication, posting, commenting, liking, following, messagin
 ---
 
 ## 📁 Project Structure
+
 src/
 ├── controllers/       → Logic for user, post, comment, story, etc.
 ├── middlewares/       → Custom middlewares (auth, multer, token)
-├── routes/            → All API route definitions 
+├── routes/            → All API route definitions (user.routes.js)
 ├── models/            → Mongoose schemas for User, Post, Comment, etc.
-├── utils/             → Utility functions, Cloudinary config, etc.
-├── db/                → DB connection
+├── utils/             → Utility functions 
+├── db/            → DB connection, Cloudinary config, etc.
 ├── server.js           → App entry point
 
 ---
