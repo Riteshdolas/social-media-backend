@@ -33,6 +33,7 @@ import {
   getPostById,
   searchUser,
 } from "../controllers/getUserData.controllers.js";
+import { addStory } from "../controllers/story.controllers.js";
 
 const router = Router();
 
@@ -43,6 +44,7 @@ router.post("/like", likePost);
 router.post("/follower", addFollower);
 router.post("/message", sendMessage);
 router.post("/comment", addComment);
+router.post("/story", upload.single("file"), addStory)
 
 router.put("/register/:userId", upload.single("profile"), updateRegisterUser);
 router.put("/post/:postId", authMiddleware, upload.single("post"), updatePost);
