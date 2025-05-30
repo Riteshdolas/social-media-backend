@@ -15,31 +15,6 @@ It handles user authentication, posting, commenting, liking, following, messagin
 - **Cloudinary (Image Hosting)**
 
 ---
-
-## 📁 Project Structure
-
-src/
-├── controllers/       → Logic for user, post, comment, story, etc.
-├── middlewares/       → Custom middlewares (auth, multer, token)
-├── routes/            → All API route definitions (user.routes.js)
-├── models/            → Mongoose schemas for User, Post, Comment, etc.
-├── utils/             → Utility functions 
-├── db/            → DB connection, Cloudinary config, etc.
-├── server.js           → App entry point
-
----
-Create a .env file
-
-PORT=                           
-CLOUD_NAME=
-CLOUD_API_KEY=
-CLOUD_API_SECRET=
-JWT_ACCESS_SECRET=
-JWT_REFRESH_SECRET=
-MONGODB_URL_LOCAL=
-
----
-
 ## 🔧 Installation & Setup
 
 ```bash
@@ -55,3 +30,24 @@ npm install
 
 # 4. Start the development server
 npm run dev
+```
+---
+## 🔐 Create a .env file
+
+PORT=             
+CLOUD_NAME=   
+CLOUD_API_KEY=                 
+CLOUD_API_SECRET=       
+JWT_ACCESS_SECRET=            
+MONGODB_URL_LOCAL=   
+
+---
+## 📁 Project Structure 
+src/                   
+├── controllers/       → Logic for user, post, comment, story, etc.             
+├── middlewares/       → Custom middlewares (auth, multer, token)   
+├── routes/            → All API route definitions (user.routes.js)       
+├── models/            → Mongoose schemas for User, Post, Comment, etc.     
+├── utils/             → Utility functions          
+├── db/            → DB connection, Cloudinary config, etc.       
+├── server.js           → App entry point
