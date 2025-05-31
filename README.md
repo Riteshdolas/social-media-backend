@@ -39,7 +39,7 @@ CLOUD_NAME=
 CLOUD_API_KEY=                 
 CLOUD_API_SECRET=       
 JWT_ACCESS_SECRET=            
-MONGODB_URL_LOCAL=   
+MONGODB_URL=    
 
 ---
 ## 📁 Project Structure 
