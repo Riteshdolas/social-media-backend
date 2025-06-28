@@ -1,6 +1,6 @@
 # 📸 social media - Backend
 
-This is the **backend server** for an Instagram clone built with Node.js, Express.js, and MongoDB.  
+This is the **backend server** for an scoial media app clone built with Node.js, Express.js, and MongoDB.  
 It handles user authentication, posting, commenting, liking, following, messaging, and more.
 
 ---
