@@ -38,17 +38,17 @@ import { addStory } from "../controllers/story.controllers.js";
 const router = Router();
 
 router.post("/register", upload.single("profile"), registerUser);
-router.post("/login", authMiddleware, login);
+router.post("/login",  login);
 router.post("/post", upload.single("post"), createPost);
-router.post("/like", likePost);
-router.post("/follower", addFollower);
-router.post("/message", sendMessage);
+router.post("/like",authMiddleware, likePost);
+router.post("/follower",authMiddleware, addFollower);
+router.post("/message",authMiddleware, sendMessage);
 router.post("/comment", addComment);
-router.post("/story", upload.single("file"), addStory)
+router.post("/story",authMiddleware, upload.single("file"), addStory)
 
-router.put("/register/:userId", upload.single("profile"), updateRegisterUser);
+router.put("/register/:userId",authMiddleware, upload.single("profile"), updateRegisterUser);
 router.put("/post/:postId", authMiddleware, upload.single("post"), updatePost);
-router.put("/comment/:commentId", updateComment);
+router.put("/comment/:commentId",authMiddleware, updateComment);
 
 router.delete("/post/:postId", authMiddleware, deletePost);
 router.delete("/follower/:followedId", authMiddleware, unFollow);
@@ -56,7 +56,7 @@ router.delete("/like/:likeId", authMiddleware, removeLike);
 router.delete("/comment/:commentId", authMiddleware, removeComment);
 
 router.get("/all", getAllUser);
-router.get("/:userName", searchUser);
+router.get("/:userName",authMiddleware, searchUser);
 router.get("/all/post", getAllPost);
 router.get("/post/:postId", getPostById);
 router.get("/all/like", getAllLikes)
