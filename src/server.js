@@ -15,6 +15,10 @@ app.use(express.urlencoded({ extended: true }));
 connectDB()
 const port = process.env.PORT || 3000
 
+app.get("/", (req, res) => {
+  res.send("🎉 Backend is working!");
+});
+
 app.use('/api/user', router)
 
 app.listen(port, ()=>{
