@@ -4,6 +4,7 @@ import {
   addFollower,
   likePost,
   login,
+  profile,
   registerUser,
   sendMessage,
 } from "../controllers/user.controllers.js";
@@ -39,7 +40,7 @@ const router = Router();
 
 router.post("/register", upload.single("profile"), registerUser);
 router.post("/login",  login);
-router.post("/post", upload.single("post"), createPost);
+router.post("/post",authMiddleware, upload.single("post"), createPost);
 router.post("/like",authMiddleware, likePost);
 router.post("/follower",authMiddleware, addFollower);
 router.post("/message",authMiddleware, sendMessage);
@@ -56,6 +57,7 @@ router.delete("/like/:likeId", authMiddleware, removeLike);
 router.delete("/comment/:commentId", authMiddleware, removeComment);
 
 router.get("/all", getAllUser);
+router.get("/profile", authMiddleware, profile )
 router.get("/:userName",authMiddleware, searchUser);
 router.get("/all/post", getAllPost);
 router.get("/post/:postId", getPostById);

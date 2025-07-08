@@ -46,7 +46,7 @@ const registerUser = async (req, res) => {
     const savedUser = await user.save();
 
     const payload = {
-      id: savedUser._id,
+      id: savedUser._id.toString(),
       username: savedUser.username,
     };
 
@@ -54,7 +54,6 @@ const registerUser = async (req, res) => {
 
     return res.status(200).json({ savedUser, token });
   } catch (error) {
-    console.log(error)
     return res.status(500).json({ error: "something went wrong" });
   }
 };
@@ -161,6 +160,22 @@ const login = async (req, res) => {
   }
 };
 
+
+const profile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Profile error:", error);
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
 export {
   registerUser,
   addFollower,
@@ -169,4 +184,5 @@ export {
   generateToken,
   login,
   addComment,
+  profile,
 };
