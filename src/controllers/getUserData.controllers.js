@@ -39,7 +39,7 @@ const getPostsByUserId = async (req, res) => {
   try {
     const posts = await Post.find({ user_id: userId })
       .sort({ createdAt: -1 })
-      .populate("user_id", "username");
+      .populate("user_id", "username profilePicture");
 
     if (!posts.length) return res.status(404).json({ message: "No posts found for this user" });
 
