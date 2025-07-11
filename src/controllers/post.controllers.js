@@ -19,7 +19,8 @@ const createPost = async (req, res) => {
 
     return res.status(201).json({ savedPost, message: "post created" });
   } catch (error) {
-    return res.status(500).json({ error: "internal server error" });
+    console.log(error)
+    return res.status(500).json({ error: "something went wrong" });
   }
 };
 
