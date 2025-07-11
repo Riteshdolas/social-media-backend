@@ -32,6 +32,7 @@ import {
   getFollowerById,
   getLikesById,
   getPostById,
+  getPostsByUserId,
   searchUser,
 } from "../controllers/getUserData.controllers.js";
 import { addStory } from "../controllers/story.controllers.js";
@@ -60,7 +61,8 @@ router.get("/all", getAllUser);
 router.get("/profile", authMiddleware, profile )
 router.get("/:userName",authMiddleware, searchUser);
 router.get("/all/post", getAllPost);
-router.get("/post/:postId", getPostById);
+router.get("/post/:userId", getPostsByUserId);
+router.get("/postid/:postId", getPostById);
 router.get("/all/like", getAllLikes)
 router.get("/like/:likeId", getLikesById)
 router.get("/all/follower", getAllFollower)

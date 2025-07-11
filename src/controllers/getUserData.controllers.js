@@ -30,6 +30,26 @@ const getAllUser = async (req, res) => {
   }
 };
 
+
+const getPostsByUserId = async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) return res.status(400).json({ message: "User ID is required" });
+
+  try {
+    const posts = await Post.find({ user_id: userId })
+      .sort({ createdAt: -1 })
+      .populate("user_id", "username");
+
+    if (!posts.length) return res.status(404).json({ message: "No posts found for this user" });
+
+    return res.status(200).json({ posts });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 const getPostById = async (req, res) => {
   const { postId } = req.params;
 
@@ -148,6 +168,7 @@ const getCommentById = async (req, res) => {
 export {
   searchUser,
   getAllUser,
+  getPostsByUserId,
   getPostById,
   getAllPost,
   getLikesById,
