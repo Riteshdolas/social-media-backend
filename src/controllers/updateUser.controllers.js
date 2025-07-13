@@ -1,6 +1,7 @@
 import { Post } from "../models/post.models.js";
 import { User } from "../models/user.models.js";
 import { Comment } from "../models/comments.models.js";
+import { uploadToCloudinary } from "../utils/cloudinary.utils.js";
 
 const updateRegisterUser = async (req, res) => {
   const userId = req.params.userId;
@@ -23,8 +24,11 @@ const updateRegisterUser = async (req, res) => {
           .json({ message: "entered same password as the old password" });
       updateData.password = password;
     }
+
     if (req.file) {
-      updateData.profilePicture = req.file.path;
+      const { url, resource_type } = await uploadToCloudinary(req.file.path);
+      updateData.profilePicture = url;
+      updateData.media_type = resource_type;
     }
 
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
