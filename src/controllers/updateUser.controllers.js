@@ -9,24 +9,27 @@ const updateRegisterUser = async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) return res.status(400).json({ message: "user not found" });
-    const isPassword = await user.comparePassword(password);
-    if (!password) return res.status(400).json({ message: "add a password" });
-    if (isPassword)
-      return res
-        .status(400)
-        .json({ message: "entered same password as the old password" });
+    const updateData = {
+      username,
+      bio,
+      email,
+      profilePicture,
+    };
+    if (password) {
+      const isPassword = await user.comparePassword(password);
+      if (isPassword)
+        return res
+          .status(400)
+          .json({ message: "entered same password as the old password" });
+      updateData.password = password;
+    }
+    if (req.file) {
+      updateData.profilePicture = req.file.path;
+    }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        username,
-        password,
-        bio,
-        email,
-        profilePicture,
-      },
-      { new: true }
-    );
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+    });
 
     res.status(200).json({ updatedUser, message: "user updated successfully" });
   } catch (error) {
