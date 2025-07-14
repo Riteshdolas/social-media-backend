@@ -1,6 +1,8 @@
+import mongoose from "mongoose";
 import { Comment } from "../models/comments.models.js";
 import { Follower } from "../models/followers.models.js";
 import { Like } from "../models/likes.models.js";
+import { Message } from "../models/message.models.js";
 import { Post } from "../models/post.models.js";
 import { User } from "../models/user.models.js";
 
@@ -30,7 +32,6 @@ const getAllUser = async (req, res) => {
   }
 };
 
-
 const getPostsByUserId = async (req, res) => {
   const { userId } = req.params;
 
@@ -41,14 +42,14 @@ const getPostsByUserId = async (req, res) => {
       .sort({ createdAt: -1 })
       .populate("user_id", "username profilePicture");
 
-    if (!posts.length) return res.status(404).json({ message: "No posts found for this user" });
+    if (!posts.length)
+      return res.status(404).json({ message: "No posts found for this user" });
 
     return res.status(200).json({ posts });
   } catch (error) {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
 
 const getPostById = async (req, res) => {
   const { postId } = req.params;
@@ -67,7 +68,10 @@ const getPostById = async (req, res) => {
 
 const getAllPost = async (req, res) => {
   try {
-    const post = await Post.find().populate("user_id", "username profilePicture");
+    const post = await Post.find().populate(
+      "user_id",
+      "username profilePicture"
+    );
     if (post.length === 0)
       return res.status(404).json({ message: "no post found" });
 
@@ -165,6 +169,36 @@ const getCommentById = async (req, res) => {
     return res.status(500).json({ error: "internal server error" });
   }
 };
+
+const getMessages = async (req, res) => {
+  const { sender_id, receiver_id } = req.params;
+
+  if (
+    !sender_id ||
+    !receiver_id ||
+    !mongoose.Types.ObjectId.isValid(sender_id) ||
+    !mongoose.Types.ObjectId.isValid(receiver_id)
+  ) {
+    return res.status(400).json({ message: "Sender or receiver ID missing!" });
+  }
+
+  try {
+    const messages = await Message.find({
+      $or: [
+        { sender_id, receiver_id },
+        { sender_id: receiver_id, receiver_id: sender_id },
+      ],
+    })
+      .sort({ createdAt: 1 })
+      .populate("sender_id", "username profilePicture") // only populate required fields
+      .populate("receiver_id", "username profilePicture");
+
+    return res.status(200).json(messages);
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to fetch messages" });
+  }
+};
+
 export {
   searchUser,
   getAllUser,
@@ -177,4 +211,5 @@ export {
   getFollowerById,
   getAllComment,
   getCommentById,
+  getMessages,
 };
