@@ -31,6 +31,7 @@ import {
   getCommentById,
   getFollowerById,
   getLikesById,
+  getMessages,
   getPostById,
   getPostsByUserId,
   searchUser,
@@ -69,5 +70,6 @@ router.get("/all/follower", getAllFollower)
 router.get("/follower/:followerId", getFollowerById)
 router.get("/all/comment", getAllComment)
 router.get("/comment/:commentId", getCommentById)
+router.get("/message/:sender_id/:receiver_id", getMessages);
 
 export default router;
