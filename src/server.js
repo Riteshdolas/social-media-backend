@@ -4,11 +4,13 @@ import bodyParser from 'body-parser'
 import { connectDB } from './db/connectDB.js'
 import router from './routes/router.js'
 import cors from "cors"
+import helmet from 'helmet'
 dotenv.config()
 
 const app = express()
 
 app.use(cors())
+app.use(helmet())
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }));
 
