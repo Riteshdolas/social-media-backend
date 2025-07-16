@@ -59,6 +59,7 @@ Hosted: https://social-media-backend-725o.onrender.com/api/user
 Local (for development): http://localhost:PORT/api/user
 <sub>Replace PORT with the value from your .env (e.g., 5000)</sub>
 
+### 🔑 Authorization
 Authorization: Bearer <your_token_here>
 
 🔐 Auth Routes
