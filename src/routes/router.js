@@ -41,35 +41,35 @@ import { addStory } from "../controllers/story.controllers.js";
 const router = Router();
 
 router.post("/register", upload.single("profile"), registerUser);
-router.post("/login",  login);
-router.post("/post",authMiddleware, upload.single("post"), createPost);
-router.post("/like",authMiddleware, likePost);
-router.post("/follower",authMiddleware, addFollower);
-router.post("/message",authMiddleware, sendMessage);
-router.post("/comment", addComment);
-router.post("/story",authMiddleware, upload.single("file"), addStory)
+router.post("/login", login);
+router.post("/post", authMiddleware, upload.single("post"), createPost);
+router.post("/like", authMiddleware, likePost);
+router.post("/follower", authMiddleware, addFollower);
+router.post("/message", authMiddleware, sendMessage);
+router.post("/comment", authMiddleware, addComment);
+router.post("/story", authMiddleware, upload.single("file"), addStory);
 
-router.put("/register/:userId",authMiddleware, upload.single("profile"), updateRegisterUser);
+router.put("/register/:userId", authMiddleware, upload.single("profile"), updateRegisterUser);
 router.put("/post/:postId", authMiddleware, upload.single("post"), updatePost);
-router.put("/comment/:commentId",authMiddleware, updateComment);
+router.put("/comment/:commentId", authMiddleware, updateComment);
 
 router.delete("/post/:postId", authMiddleware, deletePost);
 router.delete("/follower/:followedId", authMiddleware, unFollow);
 router.delete("/like/:likeId", authMiddleware, removeLike);
 router.delete("/comment/:commentId", authMiddleware, removeComment);
 
-router.get("/all", getAllUser);
-router.get("/profile", authMiddleware, profile )
-router.get("/:userName",authMiddleware, searchUser);
-router.get("/all/post", getAllPost);
+router.get("/all", authMiddleware, getAllUser);
+router.get("/profile", authMiddleware, profile);
+router.get("/:userName", authMiddleware, searchUser);
+router.get("/all/post", authMiddleware, getAllPost);
 router.get("/post/:userId", getPostsByUserId);
 router.get("/postid/:postId", getPostById);
-router.get("/all/like", getAllLikes)
-router.get("/like/:likeId", getLikesById)
-router.get("/all/follower", getAllFollower)
-router.get("/follower/:followerId", getFollowerById)
-router.get("/all/comment", getAllComment)
-router.get("/comment/:commentId", getCommentById)
+router.get("/all/like", authMiddleware, getAllLikes);
+router.get("/like/:likeId", getLikesById);
+router.get("/all/follower", authMiddleware, getAllFollower);
+router.get("/follower/:followerId", getFollowerById);
+router.get("/all/comment", authMiddleware, getAllComment);
+router.get("/comment/:commentId", getCommentById);
 router.get("/message/:sender_id/:receiver_id", getMessages);
 
 export default router;
