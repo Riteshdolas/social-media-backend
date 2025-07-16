@@ -70,6 +70,6 @@ router.get("/all/follower", authMiddleware, getAllFollower);
 router.get("/follower/:followerId", getFollowerById);
 router.get("/all/comment", authMiddleware, getAllComment);
 router.get("/comment/:commentId", getCommentById);
-router.get("/message/:sender_id/:receiver_id", getMessages);
+router.get("/message/:sender_id/:receiver_id", authMiddleware, getMessages);
 
 export default router;
