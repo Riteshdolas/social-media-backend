@@ -82,7 +82,7 @@ Authorization: Bearer <your_token_here>
 | Method | Endpoint          | Description                    | Protected |
 | ------ | ----------------- | ------------------------------ | --------- |
 | POST   | `/post`           | Create a new post (with image) | ✅ Yes     |
-| GET    | `/all/post`       | Get all posts                  | ✅ Yes     |
+| GET    | `/all/post`       | Get all posts                  | ❌ No     |
 | GET    | `/post/:userId`   | Get posts by a specific user   | ❌ No      |
 | GET    | `/postid/:postId` | Get a single post by ID        | ❌ No      |
 | PUT    | `/post/:postId`   | Update a post (with image)     | ✅ Yes     |
