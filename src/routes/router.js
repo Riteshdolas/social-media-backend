@@ -61,7 +61,7 @@ router.delete("/comment/:commentId", authMiddleware, removeComment);
 router.get("/all", authMiddleware, getAllUser);
 router.get("/profile", authMiddleware, profile);
 router.get("/:userName", authMiddleware, searchUser);
-router.get("/all/post", authMiddleware, getAllPost);
+router.get("/all/post", getAllPost);
 router.get("/post/:userId", getPostsByUserId);
 router.get("/postid/:postId", getPostById);
 router.get("/all/like", authMiddleware, getAllLikes);
