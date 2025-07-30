@@ -13,7 +13,7 @@ const app = express()
 const server = createServer(app)
 const io = new Server(server, {
     cors: {
-    origin: "https://social-media-frontend-ashy.vercel.app/",  
+    origin: "https://social-media-frontend-ashy.vercel.app",  
     methods: ["GET", "POST"]
   }
 })
