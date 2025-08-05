@@ -20,17 +20,25 @@ const authMiddleware = (req, res, next) => {
 };
 
 const optionalAuthMiddleware = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  const authHeader = req.headers.authorization;
 
-  if (token) {
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    const token = authHeader.split(" ")[1];
+
     try {
-      const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-      req.user = decoded; // add user if token is valid
-    } catch (error) {
-      console.log("Invalid token, continuing as guest");
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded; // attach user if token is valid
+    } catch (err) {
+      console.log("Invalid token, proceeding without user");
+      req.user = null; // don't block, just set null
     }
+  } else {
+    req.user = null;
   }
 
-  next(); // continue whether user is logged in or not
+  next(); // always continue
 };
+
+export default optionalAuthMiddleware;
+
 export { authMiddleware, optionalAuthMiddleware };
