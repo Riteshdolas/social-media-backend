@@ -8,7 +8,7 @@ import {
   registerUser,
   sendMessage,
 } from "../controllers/user.controllers.js";
-import { authMiddleware } from "../middlewares/token.middleware.js";
+import { authMiddleware, optionalAuthMiddleware } from "../middlewares/token.middleware.js";
 import { upload } from "../middlewares/multer.middlewares.js";
 import { createPost } from "../controllers/post.controllers.js";
 import {
@@ -61,7 +61,7 @@ router.delete("/comment/:commentId", authMiddleware, removeComment);
 router.get("/all", authMiddleware, getAllUser);
 router.get("/profile", authMiddleware, profile);
 router.get("/:userName", authMiddleware, searchUser);
-router.get("/all/post", getAllPost);
+router.get("/all/post", optionalAuthMiddleware, getAllPost);
 router.get("/post/:userId", getPostsByUserId);
 router.get("/postid/:postId", getPostById);
 router.get("/all/like", authMiddleware, getAllLikes);

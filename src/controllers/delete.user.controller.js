@@ -47,19 +47,27 @@ const removeLike = async (req, res) => {
   const { likeId } = req.params;
 
   if (!likeId) return res.status(400).json({ message: "Enter Id" });
+
   try {
     const like = await Like.findById(likeId);
 
-    if (!like) return res.status(400).json({ message: "user not found" });
+    if (!like) return res.status(400).json({ message: "like not found" });
 
     if (like.user_id.toString() !== req.user.id.toString()) {
       return res.status(403).json({ message: "unauthorized" });
     }
 
-    const removedlike = await Like.findByIdAndDelete(likeId);
-    return res.status(200).json({ removedlike, message: "Like revomed" });
+    await Like.findByIdAndDelete(likeId);
+    const likesCount = await Like.countDocuments({ post_id: like.post_id });
+    
+    return res.status(200).json({
+      message: "Like removed",
+      likesCount,
+      userHasLiked: false,
+      _id: null,
+    });
   } catch (error) {
-    return res.status(500).json({ error: "unable to revomed Like" });
+    return res.status(500).json({ error: "unable to remove Like" });
   }
 };
 

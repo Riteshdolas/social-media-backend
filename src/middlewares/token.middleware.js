@@ -19,4 +19,18 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-export { authMiddleware };
+const optionalAuthMiddleware = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+      req.user = decoded; // add user if token is valid
+    } catch (error) {
+      console.log("Invalid token, continuing as guest");
+    }
+  }
+
+  next(); // continue whether user is logged in or not
+};
+export { authMiddleware, optionalAuthMiddleware };

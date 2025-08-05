@@ -84,25 +84,41 @@ const addFollower = async (req, res) => {
 };
 
 const likePost = async (req, res) => {
-  const { user_id, post_id } = req.body;
+  // console.log("req.user:", req.user);
+  // console.log("req.body:", req.body);
+  const { post_id } = req.body;
 
-  if (!user_id || !post_id) {
+  if (!req.user?.id || !post_id) {
     return res.status(400).json({ message: "user or post id missing!" });
   }
 
   try {
-    const alradyLiked = await Like.findOne({ user_id, post_id });
+    const user_id = req.user.id;
+    const alreadyLiked = await Like.findOne({ user_id, post_id });
 
-    if (alradyLiked) {
-      return res.status(400).json({ message: "alrady following" });
+    if (alreadyLiked) {
+      return res.status(200).json({
+        message: "Already liked",
+        _id: alreadyLiked._id, // ✅ return id for unlike
+      });
     }
 
-    const likes = new Like({ user_id, post_id });
-    const savedLike = await likes.save();
+    const newLike = new Like({ user_id, post_id });
+    await newLike.save();
 
-    return res.status(200).json(savedLike);
+    // ✅ Count updated likes
+    const likesCount = await Like.countDocuments({ post_id });
+    console.log("req.user:", req.user);
+    console.log("post_id:", post_id);
+    return res.status(200).json({
+      message: "Post liked successfully",
+      likesCount,
+      _id: newLike._id, 
+      userHasLiked: true,
+    });
   } catch (error) {
-    return res.status(500).json({ error: "like not found" });
+    console.error(error);
+    return res.status(500).json({ error: "Unable to like post" });
   }
 };
 
@@ -159,7 +175,6 @@ const login = async (req, res) => {
     return res.status(500).json({ error: "inernal server error" });
   }
 };
-
 
 const profile = async (req, res) => {
   try {

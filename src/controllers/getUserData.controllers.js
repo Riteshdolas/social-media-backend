@@ -68,18 +68,48 @@ const getPostById = async (req, res) => {
 
 const getAllPost = async (req, res) => {
   try {
-    const post = await Post.find().populate(
-      "user_id",
-      "username profilePicture"
-    );
-    if (post.length === 0)
-      return res.status(404).json({ message: "no post found" });
+    const posts = await Post.find()
+      .populate("user_id", "username profilePicture");
 
-    return res.status(200).json({ post });
+    if (!posts.length) {
+      return res.status(404).json({ message: "no post found" });
+    }
+
+    const postsWithLikes = await Promise.all(
+      posts.map(async (post) => {
+        const likesCount = await Like.countDocuments({ post_id: post._id });
+
+        let userHasLiked = false;
+        let likeId = null;
+
+        if (req.user?.id) {
+          const like = await Like.findOne({
+            user_id: req.user.id,
+            post_id: post._id,
+          });
+
+          if (like) {
+            userHasLiked = true;
+            likeId = like._id; // ✅ for unlike
+          }
+        }
+
+        return {
+          ...post.toObject(),
+          likesCount: likesCount,
+          userHasLiked,
+          likeId, // ✅ include for unlike
+        };
+      })
+    );
+
+    return res.status(200).json({ posts: postsWithLikes });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ error: "internal server error" });
   }
 };
+
 
 const getAllLikes = async (req, res) => {
   try {
@@ -98,7 +128,9 @@ const getLikesById = async (req, res) => {
 
   if (!likeId) return res.status(403).json({ message: "enter like id" });
   try {
-    const likes = await Like.findById(likeId).populate("user_id", "username");
+    const likes = await Like.findById(likeId)
+      .populate("user_id", "username profilePicture")
+      .populate("post_id", "post_url");
 
     if (!likes)
       return res.status(404).json({ message: "liked post not found" });
@@ -108,6 +140,7 @@ const getLikesById = async (req, res) => {
     return res.status(500).json({ error: "internal server error" });
   }
 };
+
 const getAllFollower = async (req, res) => {
   try {
     const followers = await Follower.find()
