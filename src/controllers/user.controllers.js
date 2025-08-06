@@ -84,8 +84,6 @@ const addFollower = async (req, res) => {
 };
 
 const likePost = async (req, res) => {
-  // console.log("req.user:", req.user);
-  // console.log("req.body:", req.body);
   const { post_id } = req.body;
 
   if (!req.user?.id || !post_id) {
@@ -97,23 +95,25 @@ const likePost = async (req, res) => {
     const alreadyLiked = await Like.findOne({ user_id, post_id });
 
     if (alreadyLiked) {
+      const likesCount = await Like.countDocuments({ post_id });
+
       return res.status(200).json({
         message: "Already liked",
-        _id: alreadyLiked._id, // ✅ return id for unlike
+        _id: alreadyLiked._id,
+        likesCount,
+        userHasLiked: true,
       });
     }
 
     const newLike = new Like({ user_id, post_id });
     await newLike.save();
 
-    // ✅ Count updated likes
     const likesCount = await Like.countDocuments({ post_id });
-    console.log("req.user:", req.user);
-    console.log("post_id:", post_id);
+
     return res.status(200).json({
       message: "Post liked successfully",
       likesCount,
-      _id: newLike._id, 
+      _id: newLike._id,
       userHasLiked: true,
     });
   } catch (error) {

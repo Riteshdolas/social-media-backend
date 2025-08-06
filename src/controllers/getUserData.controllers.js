@@ -68,8 +68,10 @@ const getPostById = async (req, res) => {
 
 const getAllPost = async (req, res) => {
   try {
-    const posts = await Post.find()
-      .populate("user_id", "username profilePicture");
+    const posts = await Post.find().populate(
+      "user_id",
+      "username profilePicture"
+    );
 
     if (!posts.length) {
       return res.status(404).json({ message: "no post found" });
@@ -90,7 +92,7 @@ const getAllPost = async (req, res) => {
 
           if (like) {
             userHasLiked = true;
-            likeId = like._id; // ✅ for unlike
+            likeId = like._id; // for unlike
           }
         }
 
@@ -98,7 +100,7 @@ const getAllPost = async (req, res) => {
           ...post.toObject(),
           likesCount: likesCount,
           userHasLiked,
-          likeId, // ✅ include for unlike
+          likeId,
         };
       })
     );
@@ -109,7 +111,6 @@ const getAllPost = async (req, res) => {
     return res.status(500).json({ error: "internal server error" });
   }
 };
-
 
 const getAllLikes = async (req, res) => {
   try {

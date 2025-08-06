@@ -21,13 +21,13 @@ const authMiddleware = (req, res, next) => {
 
 const optionalAuthMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
-
+  
   if (authHeader && authHeader.startsWith("Bearer ")) {
     const token = authHeader.split(" ")[1];
-
+ 
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded; // attach user if token is valid
+      const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+      req.user = decoded; 
     } catch (err) {
       console.log("Invalid token, proceeding without user");
       req.user = null; // don't block, just set null
