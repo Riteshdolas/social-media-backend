@@ -32,6 +32,25 @@ const getAllUser = async (req, res) => {
   }
 };
 
+// const getPostsByUserId = async (req, res) => {
+//   const { userId } = req.params;
+
+//   if (!userId) return res.status(400).json({ message: "User ID is required" });
+
+//   try {
+//     const posts = await Post.find({ user_id: userId })
+//       .sort({ createdAt: -1 })
+//       .populate("user_id", "username profilePicture");
+
+//     if (!posts.length)
+//       return res.status(404).json({ message: "No posts found for this user" });
+
+//     return res.status(200).json({ posts });
+//   } catch (error) {
+//     return res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+
 const getPostsByUserId = async (req, res) => {
   const { userId } = req.params;
 
@@ -42,11 +61,41 @@ const getPostsByUserId = async (req, res) => {
       .sort({ createdAt: -1 })
       .populate("user_id", "username profilePicture");
 
-    if (!posts.length)
+    if (!posts.length) {
       return res.status(404).json({ message: "No posts found for this user" });
+    }
 
-    return res.status(200).json({ posts });
+    const postsWithLikes = await Promise.all(
+      posts.map(async (post) => {
+        const likesCount = await Like.countDocuments({ post_id: post._id });
+
+        let userHasLiked = false;
+        let likeId = null;
+
+        if (req.user?.id) {
+          const like = await Like.findOne({
+            user_id: req.user.id,
+            post_id: post._id,
+          });
+
+          if (like) {
+            userHasLiked = true;
+            likeId = like._id;
+          }
+        }
+
+        return {
+          ...post.toObject(),
+          likesCount,
+          userHasLiked,
+          likeId,
+        };
+      })
+    );
+
+    return res.status(200).json({ posts: postsWithLikes });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
