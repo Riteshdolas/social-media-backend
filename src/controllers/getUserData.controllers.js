@@ -227,13 +227,31 @@ const getAllComment = async (req, res) => {
   try {
     const comments = await Comment.find().populate("user_id", "username");
     if (comments.length === 0)
-      return res.status(404).json({ message: "no comment found" });
+      return res.status(404).json({ message: "no comments found for this post" });
 
     return res.status(200).json({ comments });
   } catch (error) {
     return res.status(500).json({ error: "internal server error" });
   }
 };
+
+const getCommentsByPostId = async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const comments = await Comment.find({ post_id: postId })
+      .populate("user_id", "username profilePicture")
+      .sort({ createdAt: -1 });
+    if (comments.length === 0)
+      return res.status(404).json({ message: "no comments found for this post" });
+
+    return res.status(200).json({ comments });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Failed to fetch comments" });
+  }
+};
+
 
 const getCommentById = async (req, res) => {
   const { commentId } = req.params;
@@ -295,4 +313,5 @@ export {
   getAllComment,
   getCommentById,
   getMessages,
+  getCommentsByPostId,
 };

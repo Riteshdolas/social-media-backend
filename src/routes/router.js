@@ -29,6 +29,7 @@ import {
   getAllPost,
   getAllUser,
   getCommentById,
+  getCommentsByPostId,
   getFollowerById,
   getLikesById,
   getMessages,
@@ -69,6 +70,7 @@ router.get("/like/:likeId", getLikesById);
 router.get("/all/follower", authMiddleware, getAllFollower);
 router.get("/follower/:followerId", getFollowerById);
 router.get("/all/comment", authMiddleware, getAllComment);
+router.get("/posts/:postId/comments", authMiddleware, getCommentsByPostId)
 router.get("/comment/:commentId", getCommentById);
 router.get("/message/:sender_id/:receiver_id", authMiddleware, getMessages);
 
