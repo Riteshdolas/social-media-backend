@@ -1,6 +1,7 @@
 import express, { Router } from "express";
 import {
-  addComment,
+  // addComment,
+  createComment,
   addFollower,
   likePost,
   login,
@@ -47,7 +48,8 @@ router.post("/post", authMiddleware, upload.single("post"), createPost);
 router.post("/like", authMiddleware, likePost);
 router.post("/follower", authMiddleware, addFollower);
 router.post("/message", authMiddleware, sendMessage);
-router.post("/comment", authMiddleware, addComment);
+router.post("/comment/:postId", authMiddleware, createComment);
+// router.post("/comment", authMiddleware, addComment);
 router.post("/story", authMiddleware, upload.single("file"), addStory);
 
 router.put("/register/:userId", authMiddleware, upload.single("profile"), updateRegisterUser);
@@ -70,7 +72,7 @@ router.get("/like/:likeId", getLikesById);
 router.get("/all/follower", authMiddleware, getAllFollower);
 router.get("/follower/:followerId", getFollowerById);
 router.get("/all/comment", authMiddleware, getAllComment);
-router.get("/posts/:postId/comments", authMiddleware, getCommentsByPostId)
+router.get("/comments/:postId", authMiddleware, getCommentsByPostId)
 router.get("/comment/:commentId", getCommentById);
 router.get("/message/:sender_id/:receiver_id", authMiddleware, getMessages);
 

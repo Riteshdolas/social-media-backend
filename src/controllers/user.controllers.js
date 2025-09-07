@@ -139,19 +139,44 @@ const sendMessage = async (req, res) => {
   }
 };
 
-const addComment = async (req, res) => {
-  const { user_id, post_id, text } = req.body;
+// const addComment = async (req, res) => {
+//   const { user_id, post_id, text } = req.body;
 
+//   try {
+//     if (!user_id || !post_id || !text)
+//       return res.status(400).json({ message: "required all the fields" });
+
+//     const comment = new Comment(req.body);
+//     const savedComment = await comment.save();
+
+//     return res.status(200).json(savedComment);
+//   } catch (error) {
+//     return res.status(500).json({ error: "commnt error" });
+//   }
+// };
+
+const createComment = async (req, res) => {
   try {
-    if (!user_id || !post_id || !text)
-      return res.status(400).json({ message: "required all the fields" });
+    const { postId } = req.params;
+    const userId = req.user.id;
+    const { text } = req.body;
 
-    const comment = new Comment(req.body);
-    const savedComment = await comment.save();
+    if (!text) {
+      return res.status(400).json({ message: "Comment content is required" });
+    }
 
-    return res.status(200).json(savedComment);
+    const comment = new Comment({
+      text,
+      post_id: postId,
+      user_id: userId,
+    });
+
+    await comment.save();
+
+    res.status(201).json({ message: "Comment added", text });
   } catch (error) {
-    return res.status(500).json({ error: "commnt error" });
+    console.error(error);
+    res.status(500).json({ message: "Server error while adding comment" });
   }
 };
 
@@ -198,6 +223,7 @@ export {
   sendMessage,
   generateToken,
   login,
-  addComment,
+  // addComment,
   profile,
+  createComment,
 };
