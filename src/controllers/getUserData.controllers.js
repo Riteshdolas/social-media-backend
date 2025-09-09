@@ -68,6 +68,7 @@ const getPostsByUserId = async (req, res) => {
     const postsWithLikes = await Promise.all(
       posts.map(async (post) => {
         const likesCount = await Like.countDocuments({ post_id: post._id });
+        const commentsCount = await Comment.countDocuments({ post_id: post._id });
 
         let userHasLiked = false;
         let likeId = null;
@@ -87,6 +88,7 @@ const getPostsByUserId = async (req, res) => {
         return {
           ...post.toObject(),
           likesCount,
+          commentsCount: commentsCount,
           userHasLiked,
           likeId,
         };
@@ -129,6 +131,7 @@ const getAllPost = async (req, res) => {
     const postsWithLikes = await Promise.all(
       posts.map(async (post) => {
         const likesCount = await Like.countDocuments({ post_id: post._id });
+        const commentsCount = await Comment.countDocuments({ post_id: post._id });
 
         let userHasLiked = false;
         let likeId = null;
@@ -148,6 +151,7 @@ const getAllPost = async (req, res) => {
         return {
           ...post.toObject(),
           likesCount: likesCount,
+          commentsCount: commentsCount,
           userHasLiked,
           likeId,
         };
