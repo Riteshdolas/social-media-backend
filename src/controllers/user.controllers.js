@@ -171,14 +171,17 @@ const createComment = async (req, res) => {
       user_id: userId,
     });
 
-    await comment.save();
+    const savedComment = await comment.save();
 
-    res.status(201).json({ message: "Comment added", text });
+    await savedComment.populate("user_id", "username profilePicture");
+
+    res.status(201).json(savedComment);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error while adding comment" });
   }
 };
+
 
 const login = async (req, res) => {
   const { username, password } = req.body;
